@@ -24,6 +24,15 @@ app.get('/json', function(req, res) {
   }
   
   res.json({"message": message});
-})
+});
+
+app.get('/now', function(req, res, next) {
+  // Middleware
+  req.time = (new Date()).toString();
+  next();
+}, function(req, res) {
+  // Request handler
+  res.json({'time': req.time});
+});
 
 module.exports = app;
