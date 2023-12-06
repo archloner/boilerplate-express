@@ -1,7 +1,8 @@
-require('dotenv').config()
-
 let express = require('express');
 let path = require('path');
+let bodyParser = require('body-parser')
+
+require('dotenv').config()
 
 let app = express();
 
@@ -12,6 +13,8 @@ app.use((req, res, next) => {
   next();
 });
 
+// Use body-parser to parse POST requests
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/views/index.html')
@@ -38,5 +41,12 @@ app.get('/now', function(req, res, next) {
 app.get('/:word/echo', function(req, res) {
   res.json({'echo': req.params.word})
 })
+
+app.get('/name', function(req, res) {
+  let name = `${req.query.first} ${req.query.last}`;
+  res.json({'name': name})
+})
+
+app.route(path).get(handler).post(handler)
 
 module.exports = app;
