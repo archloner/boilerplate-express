@@ -1,6 +1,7 @@
 let express = require('express');
 let path = require('path');
-let bodyParser = require('body-parser')
+let bodyParser = require('body-parser');
+const res = require('express/lib/response');
 
 require('dotenv').config()
 
@@ -42,11 +43,17 @@ app.get('/:word/echo', function(req, res) {
   res.json({'echo': req.params.word})
 })
 
-app.get('/name', function(req, res) {
+// app.get('/name', function(req, res) {
+//   let name = `${req.query.first} ${req.query.last}`;
+//   res.json({'name': name})
+// })
+
+app.route('/name').get(function(req, res) {
   let name = `${req.query.first} ${req.query.last}`;
   res.json({'name': name})
+}).post(function(req, res) {
+  let name = `${req.body.first} ${req.body.last}`;
+  res.json({'name': name});
 })
-
-app.route(path).get(handler).post(handler)
 
 module.exports = app;
